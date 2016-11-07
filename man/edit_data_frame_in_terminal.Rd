@@ -6,16 +6,15 @@
 \usage{
 edit_data_frame_in_terminal(df_to_edit = data.frame(matrix(vector(), 0, 2,
   dimnames = list(c(), c("parameter", "value"))), stringsAsFactors = F),
-  action = 1)
+  action = 0)
 }
 \arguments{
 \item{df_to_edit}{= data frame to edit}
 
 \item{action}{with the following options:
-= 0 (view df and print options)
 = 1 (add new line)
 = 2 (edit existing record)
-= 3 (delete existing record)
+= 3 (remove existing record)
 = 4 (save and exit)}
 }
 \description{
