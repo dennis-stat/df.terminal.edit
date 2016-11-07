@@ -20,4 +20,7 @@ edit_data_frame_in_terminal(df_to_edit = data.frame(matrix(vector(), 0, 2,
 \description{
 Edit data frame in terminal
 }
+\examples{
+edit_data_frame_in_terminal(data_frame_to_edit)
+}
 
