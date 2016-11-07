@@ -13,11 +13,11 @@ get_value_from_prompt <- function(
     cat(  paste('\n Please enter value for \'', 
                 variable_name, '\'', 
                 ifelse(nchar(example_value)>0, paste(' e.g. \'', example_value, '\'',sep = ''),''),  
-                ' (current value: \'',current_value, '\', to keep it just press ENTER)    ', sep = ''))
+                ' (current value: \'',current_value, '\', to keep it just press ENTER)    :', sep = ''))
     
     new_value <- readline()
     if(new_value == '') {new_value = current_value}
-    if(show_result == T) {cat(paste('New value: \'', new_value,'\'', sep = ''))}
+    if(show_result == T) {cat(paste('New value: \'', new_value,'\'\n', sep = ''))}
     return(new_value)
 }
 
@@ -56,33 +56,30 @@ edit_data_frame_in_terminal <- function(
     action = 1 
     
 ) {
-    if (action == 0) {
-        
-    }
     # create row_number identifier and add it to the data frame
     number_of_records <- dim(df_to_edit)[1]
     column_names <- colnames(df_to_edit)
     row_numbers = data.frame(row_number = (if(number_of_records==0) c(1)[0] else (1:number_of_records)))
-    df_to_edit_rn = cbind(row_numbers, df_to_edit)
+    # df_to_edit_rn = cbind(row_numbers, df_to_edit) # use it if we need additional column with numbers of rows 
 
     # Print edit options
     cat('', sep="\n\n\n")
 
-    print('To print the current values please enter \'1\'')
+    cat('To print the current values please enter \'1\'\n')
     
-    print('To add new record please enter \'2\'')
+    cat('To add new record please enter \'2\'\n')
     
-    if(number_of_records>0) {print('To edit record please enter \'3\'')}
+    if(number_of_records>0) {cat('To edit record please enter \'3\'\n')}
     
-    print('To save and exit please enter \'4\'')
+    cat('To save and exit please enter \'4\'\n')
     
     action <- readline()
     
     if (action == 1) {
     # Print data frame 
     cat('', sep="\n\n\n")
-    print('The currect values of the data frame:')
-    print(df_to_edit_rn)
+      cat('The currect values of the data frame:\n')
+      print(df_to_edit)
     df_new <- edit_data_frame_in_terminal(df_to_edit)
     return(df_new)
     }
@@ -98,7 +95,7 @@ edit_data_frame_in_terminal <- function(
     
     if (action == 3) {
         # If choice is to edit existing record 
-        print('please enter row_number of the record you want to edit')
+      cat('please enter row_number of the record you want to edit\n')
         row_number_to_edit <- readline()
         if(row_number_to_edit %in% 1:number_of_records) {
         new_record <- edit_one_record_in_terminal(df_to_edit[row_number_to_edit,])
@@ -106,7 +103,7 @@ edit_data_frame_in_terminal <- function(
         colnames(df_to_edit) <- column_names
         df_new <- edit_data_frame_in_terminal(df_to_edit)
         return(df_new) } else {
-            print('Row number is out of scope')
+          cat('Row number is out of scope\n')
             return(df_to_edit)
         }
     } 
