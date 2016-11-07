@@ -44,16 +44,15 @@ edit_one_record_in_terminal <- function(
 #' Edit data frame in terminal
 #' @param df_to_edit  = data frame to edit
 #' @param action with the following options:
-#' = 0 (view df and print options)
 #' = 1 (add new line)
 #' = 2 (edit existing record)
-#' = 3 (delete existing record)
+#' = 3 (remove existing record)
 #' = 4 (save and exit)
 
 edit_data_frame_in_terminal <- function(
     # Default empty data frame
     df_to_edit = data.frame(matrix(vector(), 0, 2,dimnames=list(c(), c("parameter", "value"))),stringsAsFactors=F),
-    action = 1 
+    action = 0
     
 ) {
     # create row_number identifier and add it to the data frame
@@ -62,29 +61,23 @@ edit_data_frame_in_terminal <- function(
     row_numbers = data.frame(row_number = (if(number_of_records==0) c(1)[0] else (1:number_of_records)))
     # df_to_edit_rn = cbind(row_numbers, df_to_edit) # use it if we need additional column with numbers of rows 
 
+    cat('', sep="\n\n\n")
+    cat('The currect values of the data frame:\n')
+    print(df_to_edit)
+    
     # Print edit options
     cat('', sep="\n\n\n")
 
-    cat('To print the current values please enter \'1\'\n')
-    
-    cat('To add new record please enter \'2\'\n')
-    
-    if(number_of_records>0) {cat('To edit record please enter \'3\'\n')}
-    
-    cat('To save and exit please enter \'4\'\n')
+    cat('To add new record please enter \'1\'\n')
+    if(number_of_records>0) {cat('To edit a record please enter \'2\'\n')}
+    if(number_of_records>0) {cat('To remove a record please enter \'3\'\n')}
+    cat('To save and exit please just press \'Enter\' or type anything else\n')
     
     action <- readline()
     
-    if (action == 1) {
-    # Print data frame 
-    cat('', sep="\n\n\n")
-      cat('The currect values of the data frame:\n')
-      print(df_to_edit)
-    df_new <- edit_data_frame_in_terminal(df_to_edit)
-    return(df_new)
-    }
+  
     
-    if (action == 2) {
+    if (action == 1) {
         # If choice is to add add new record 
         new_record <- edit_one_record_in_terminal(df_to_edit[number_of_records+1,])
         df_new <- rbind(df_to_edit, new_record,stringsAsFactors=F)
@@ -93,7 +86,7 @@ edit_data_frame_in_terminal <- function(
         return(df_new)
     } 
     
-    if (action == 3) {
+    if (action == 2) {
         # If choice is to edit existing record 
       cat('please enter row_number of the record you want to edit\n')
         row_number_to_edit <- readline()
@@ -106,7 +99,26 @@ edit_data_frame_in_terminal <- function(
           cat('Row number is out of scope\n')
             return(df_to_edit)
         }
-    } 
+        return(df_new)
+        
+    }
+    
+    
+    if (action == 3) {
+      # If choice is to edit existing record 
+      cat('please enter row_number of the record you want to remove\n')
+      row_number_to_remove <- readline()
+      if(row_number_to_remove %in% 1:number_of_records) {
+        df_to_edit <- df_to_edit[1:number_of_records != row_number_to_remove,]
+        colnames(df_to_edit) <- column_names
+        df_new <- edit_data_frame_in_terminal(df_to_edit)
+        return(df_new) } else {
+          cat('Row number is out of scope\n')
+          df_new <- edit_data_frame_in_terminal(df_to_edit)
+        }
+      return(df_new)
+      
+    }
     
     return(df_to_edit)
 } 
