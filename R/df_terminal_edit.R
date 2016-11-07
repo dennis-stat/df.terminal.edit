@@ -72,10 +72,11 @@ edit_data_frame_in_terminal <- function(
     # Print edit options
     cat('', sep="\n\n\n")
 
-    cat('To add new record please enter \'1\'\n')
-    if(number_of_records>0) {cat('To edit a record please enter \'2\'\n')}
-    if(number_of_records>0) {cat('To remove a record please enter \'3\'\n')}
-    cat('To save and exit please just press \'Enter\' or type anything else\n')
+    cat('Please select one of the options:\n')
+    cat('1: add new record\n')
+    if(number_of_records>0) {cat('2: edit a record\n')}
+    if(number_of_records>0) {cat('3: remove a record\n')}
+    cat('4 (or any other): save and exit\n')
 
     action <- readline()
 
